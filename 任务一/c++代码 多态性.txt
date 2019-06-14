@@ -1,0 +1,114 @@
+﻿#include <iostream> 
+using namespace std;  
+class Shape
+ { 
+public: 
+  virtual float area()const=0; 
+  virtual void shapeName()const=0;
+ }; 
+  class Point:public Shape
+ { 
+public: ??
+   Point(float,float); 
+   void setPoint(float,float); 
+   float getX()const{return x;} 
+   float getY()const{return y;} 
+   friend ostream & operator <<(ostream &,const Point &); 
+ virtual float area()const {return 0;};
+ virtual void shapeName()const{cout<<"Point:";};
+ protected: 
+     float x; 
+     float y; }; 
+ class Circle:public Point 
+{ 
+public: 
+     Circle(float,float,float);
+     void setRadius(float);
+     float getRadius()const;
+     virtual float area()const;
+     friend ostream &operator<<(ostream &,const Circle &);
+    virtual void shapeName()const{cout<<"Circle:";};
+protected:
+    float radius; 
+}; 
+ class Cylinder:public Circle
+ { 
+public: 
+   Cylinder(float,float,float,float);
+   void setHeight(float); 
+float getHeight()const; 
+   virtual float area()const;
+   float volume()const;
+   friend ostream &operator <<(ostream &,const Cylinder &);
+   virtual void shapeName()const{cout<<"Cylinder:";}; 
+private: 
+     float height; 
+ }; 
+ Point::Point(float a=1,float b=1):x(a),y(b){}; 
+ void Point::setPoint(float a,float b)
+ {
+ x=a;  y=b; 
+ } 
+ostream & operator <<(ostream &output,const Point &p) 
+ {
+  output<<"center=["<<p.x<<","<<p.y<<"]"<<endl;
+  return output;  
+ }
+  Circle::Circle(float a=1,float b=1,float r=1):Point(a,b),radius(r){};
+ void Circle::setRadius(float r) 
+ { 
+      radius=r;
+ }
+ float Circle::getRadius()const{return radius;} 
+ float Circle::area()const 
+ { 
+      return 3.1415*radius*radius;
+ }
+ ostream &operator <<(ostream &output,const Circle &c)
+ {  output<<"Center=["<<c.x<<","<<c.y<<"],r="<<c.radius<<",area="<<c.area()<<endl; 
+    return output; 
+} 
+ Cylinder::Cylinder(float a,float b,float r,float h):Circle(a,b,r),height(h){}; 
+ void Cylinder::setHeight(float h) 
+{   
+      height=h; 
+} 
+float Cylinder::getHeight()const
+ { 
+      return height;
+ } 
+float Cylinder::area()const 
+{ 
+  return 2*3.1415*Circle::area()+2*3.1415*radius*height; 
+} 
+float Cylinder::volume()const { ?
+     return Circle::area()*height; }
+ ostream &operator <<(ostream &output,const Cylinder &cy)
+ {     output<<"center=["<<cy.x<<","<<cy.y<<"],r="<<cy.radius<<",h="<<cy.height<<",area="<<cy.area()<<",volume="<<cy.volume()<<endl; ??? 
+       return output; 
+} 
+ void main() 
+{ 
+    Point point(3.2,4.5); ?? 
+    Circle circle(2.4,1.2,5.6); 
+    Cylinder cylinder(3.5,6.4,5.2,10.5);
+    point.shapeName(); 
+    cout<<point<<endl;  
+    circle.shapeName(); 
+    cout<<circle<<endl;  
+    cylinder.shapeName(); 
+    cout<<cylinder<<endl<<endl; 
+    Shape *pt; 
+    pt=&point;? 
+    pt->shapeName();
+    cout<<point<<endl; 
+    pt=&circle; 
+    pt->shapeName(); 
+    cout<<circle<<endl;
+    pt=&cylinder;
+    pt->shapeName(); 
+    cout<<cylinder<<endl; ?
+    Point *pt; 
+    pt=&cylinder; 
+    pt->shapeName(); 
+    cout<<*pt<<endl; }
